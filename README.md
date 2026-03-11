@@ -217,7 +217,7 @@ docker compose down -v
 
 | Service | URL | Credentials |
 | --- | --- | --- |
-| Tomcat web server | <http://localhost:8080> | *(none)* |
+| Tomcat web server | <http://localhost:8888> | *(none)* |
 | MinIO S3 API | <http://localhost:9000> | `minioadmin` / `minioadmin` |
 | MinIO web console | <http://localhost:9001> | `minioadmin` / `minioadmin` |
 

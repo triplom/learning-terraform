@@ -23,7 +23,7 @@ services:
     image: tomcat:10-jre17
     container_name: tomcat-web-local
     ports:
-      - "8080:8080"
+      - "8888:8080"
     networks:
       - learning-net
     restart: unless-stopped

@@ -16,7 +16,7 @@ variable "tomcat_image" {
 variable "tomcat_port" {
   description = "Host port to expose Tomcat on (maps to container port 8080)"
   type        = number
-  default     = 8080
+  default     = 8888
 }
 
 # ---------------------------------------------------------------------------

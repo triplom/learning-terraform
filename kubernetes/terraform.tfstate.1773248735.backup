@@ -1,0 +1,1074 @@
+{
+  "version": 4,
+  "terraform_version": "1.14.6",
+  "serial": 28,
+  "lineage": "f4463772-1802-5e8c-89ef-1fae8a3e740a",
+  "outputs": {
+    "minio_access_key": {
+      "value": "minioadmin",
+      "type": "string"
+    },
+    "minio_console_url": {
+      "value": "http://localhost:30901",
+      "type": "string"
+    },
+    "minio_deployment_name": {
+      "value": "minio",
+      "type": "string"
+    },
+    "minio_pvc_name": {
+      "value": "minio-pvc",
+      "type": "string"
+    },
+    "minio_s3_url": {
+      "value": "http://localhost:30900",
+      "type": "string"
+    },
+    "minio_secret_key": {
+      "value": "minioadmin",
+      "type": "string",
+      "sensitive": true
+    },
+    "minio_secret_name": {
+      "value": "minio-secret",
+      "type": "string"
+    },
+    "minio_service_name": {
+      "value": "minio-svc",
+      "type": "string"
+    },
+    "namespace": {
+      "value": "terraform",
+      "type": "string"
+    },
+    "webapp_deployment_name": {
+      "value": "webapp",
+      "type": "string"
+    },
+    "webapp_hpa_name": {
+      "value": "webapp-hpa",
+      "type": "string"
+    },
+    "webapp_node_port": {
+      "value": 30080,
+      "type": "number"
+    },
+    "webapp_service_name": {
+      "value": "webapp-svc",
+      "type": "string"
+    },
+    "webapp_url": {
+      "value": "http://localhost:30080",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "kubernetes_namespace_v1",
+      "name": "app",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "terraform",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "environment": "dev",
+                  "managed-by": "terraform",
+                  "project": "learning-terraform"
+                },
+                "name": "terraform",
+                "resource_version": "26046",
+                "uid": "110c8dd6-0cf7-487b-929a-e48d1cbfef45"
+              }
+            ],
+            "timeouts": null,
+            "wait_for_default_service_account": false
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Namespace",
+            "name": "terraform"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiZGVsZXRlIjozMDAwMDAwMDAwMDB9fQ=="
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "kubernetes_config_map_v1",
+      "name": "minio",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": null,
+            "data": {
+              "MINIO_BROWSER": "on",
+              "MINIO_DEFAULT_BUCKETS": "app-bucket"
+            },
+            "id": "terraform/minio-config",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "minio",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "minio-config",
+                "namespace": "terraform",
+                "resource_version": "26050",
+                "uid": "6d55d17c-7182-4426-853f-9c57cc121162"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "ConfigMap",
+            "name": "minio-config",
+            "namespace": "terraform"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "kubernetes_deployment_v1",
+      "name": "minio",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "terraform/minio",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 1,
+                "labels": {
+                  "app": "minio",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "minio",
+                "namespace": "terraform",
+                "resource_version": "26280",
+                "uid": "728e754b-8cb2-4223-9601-1ef041a98a46"
+              }
+            ],
+            "spec": [
+              {
+                "min_ready_seconds": 0,
+                "paused": false,
+                "progress_deadline_seconds": 600,
+                "replicas": "1",
+                "revision_history_limit": 10,
+                "selector": [
+                  {
+                    "match_expressions": [],
+                    "match_labels": {
+                      "app": "minio"
+                    }
+                  }
+                ],
+                "strategy": [
+                  {
+                    "rolling_update": [],
+                    "type": "Recreate"
+                  }
+                ],
+                "template": [
+                  {
+                    "metadata": [
+                      {
+                        "annotations": null,
+                        "generate_name": "",
+                        "generation": 0,
+                        "labels": {
+                          "app": "minio",
+                          "environment": "dev"
+                        },
+                        "name": "",
+                        "namespace": "",
+                        "resource_version": "",
+                        "uid": ""
+                      }
+                    ],
+                    "spec": [
+                      {
+                        "active_deadline_seconds": 0,
+                        "affinity": [],
+                        "automount_service_account_token": true,
+                        "container": [
+                          {
+                            "args": [
+                              "server",
+                              "/data",
+                              "--console-address",
+                              ":9001"
+                            ],
+                            "command": null,
+                            "env": [
+                              {
+                                "name": "MINIO_ROOT_USER",
+                                "value": "",
+                                "value_from": [
+                                  {
+                                    "config_map_key_ref": [],
+                                    "field_ref": [],
+                                    "resource_field_ref": [],
+                                    "secret_key_ref": [
+                                      {
+                                        "key": "root-user",
+                                        "name": "minio-secret",
+                                        "optional": false
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "name": "MINIO_ROOT_PASSWORD",
+                                "value": "",
+                                "value_from": [
+                                  {
+                                    "config_map_key_ref": [],
+                                    "field_ref": [],
+                                    "resource_field_ref": [],
+                                    "secret_key_ref": [
+                                      {
+                                        "key": "root-password",
+                                        "name": "minio-secret",
+                                        "optional": false
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ],
+                            "env_from": [
+                              {
+                                "config_map_ref": [
+                                  {
+                                    "name": "minio-config",
+                                    "optional": false
+                                  }
+                                ],
+                                "prefix": "",
+                                "secret_ref": []
+                              }
+                            ],
+                            "image": "minio/minio:latest",
+                            "image_pull_policy": "Always",
+                            "lifecycle": [],
+                            "liveness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [
+                                  {
+                                    "host": "",
+                                    "http_header": [],
+                                    "path": "/minio/health/live",
+                                    "port": "9000",
+                                    "scheme": "HTTP"
+                                  }
+                                ],
+                                "initial_delay_seconds": 30,
+                                "period_seconds": 20,
+                                "success_threshold": 1,
+                                "tcp_socket": [],
+                                "timeout_seconds": 5
+                              }
+                            ],
+                            "name": "minio",
+                            "port": [
+                              {
+                                "container_port": 9000,
+                                "host_ip": "",
+                                "host_port": 0,
+                                "name": "s3",
+                                "protocol": "TCP"
+                              },
+                              {
+                                "container_port": 9001,
+                                "host_ip": "",
+                                "host_port": 0,
+                                "name": "console",
+                                "protocol": "TCP"
+                              }
+                            ],
+                            "readiness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [
+                                  {
+                                    "host": "",
+                                    "http_header": [],
+                                    "path": "/minio/health/ready",
+                                    "port": "9000",
+                                    "scheme": "HTTP"
+                                  }
+                                ],
+                                "initial_delay_seconds": 15,
+                                "period_seconds": 10,
+                                "success_threshold": 1,
+                                "tcp_socket": [],
+                                "timeout_seconds": 5
+                              }
+                            ],
+                            "resources": [
+                              {
+                                "limits": {
+                                  "cpu": "500m",
+                                  "memory": "512Mi"
+                                },
+                                "requests": {
+                                  "cpu": "250m",
+                                  "memory": "256Mi"
+                                }
+                              }
+                            ],
+                            "restart_policy": "",
+                            "security_context": [],
+                            "startup_probe": [],
+                            "stdin": false,
+                            "stdin_once": false,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "File",
+                            "tty": false,
+                            "volume_device": [],
+                            "volume_mount": [
+                              {
+                                "mount_path": "/data",
+                                "mount_propagation": "None",
+                                "name": "minio-data",
+                                "read_only": false,
+                                "sub_path": "",
+                                "sub_path_expr": ""
+                              }
+                            ],
+                            "working_dir": ""
+                          }
+                        ],
+                        "dns_config": [],
+                        "dns_policy": "ClusterFirst",
+                        "enable_service_links": true,
+                        "host_aliases": [],
+                        "host_ipc": false,
+                        "host_network": false,
+                        "host_pid": false,
+                        "hostname": "",
+                        "image_pull_secrets": [],
+                        "init_container": [],
+                        "node_name": "",
+                        "node_selector": null,
+                        "os": [],
+                        "priority_class_name": "",
+                        "readiness_gate": [],
+                        "restart_policy": "Always",
+                        "runtime_class_name": "",
+                        "scheduler_name": "default-scheduler",
+                        "security_context": [],
+                        "service_account_name": "",
+                        "share_process_namespace": false,
+                        "subdomain": "",
+                        "termination_grace_period_seconds": 30,
+                        "toleration": [],
+                        "topology_spread_constraint": [],
+                        "volume": [
+                          {
+                            "aws_elastic_block_store": [],
+                            "azure_disk": [],
+                            "azure_file": [],
+                            "ceph_fs": [],
+                            "cinder": [],
+                            "config_map": [],
+                            "csi": [],
+                            "downward_api": [],
+                            "empty_dir": [],
+                            "ephemeral": [],
+                            "fc": [],
+                            "flex_volume": [],
+                            "flocker": [],
+                            "gce_persistent_disk": [],
+                            "git_repo": [],
+                            "glusterfs": [],
+                            "host_path": [],
+                            "iscsi": [],
+                            "local": [],
+                            "name": "minio-data",
+                            "nfs": [],
+                            "persistent_volume_claim": [
+                              {
+                                "claim_name": "minio-pvc",
+                                "read_only": false
+                              }
+                            ],
+                            "photon_persistent_disk": [],
+                            "projected": [],
+                            "quobyte": [],
+                            "rbd": [],
+                            "secret": [],
+                            "vsphere_volume": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_rollout": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "apps/v1",
+            "kind": "Deployment",
+            "name": "minio",
+            "namespace": "terraform"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "kubernetes_namespace_v1.app",
+            "module.storage.kubernetes_config_map_v1.minio",
+            "module.storage.kubernetes_persistent_volume_claim_v1.minio",
+            "module.storage.kubernetes_secret_v1.minio"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "kubernetes_persistent_volume_claim_v1",
+      "name": "minio",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "terraform/minio-pvc",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "minio",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "minio-pvc",
+                "namespace": "terraform",
+                "resource_version": "26051",
+                "uid": "84c7143e-0bd6-4766-add0-8cdfb7710dd7"
+              }
+            ],
+            "spec": [
+              {
+                "access_modes": [
+                  "ReadWriteOnce"
+                ],
+                "resources": [
+                  {
+                    "limits": null,
+                    "requests": {
+                      "storage": "5Gi"
+                    }
+                  }
+                ],
+                "selector": [],
+                "storage_class_name": "standard",
+                "volume_mode": "Filesystem",
+                "volume_name": ""
+              }
+            ],
+            "timeouts": null,
+            "wait_until_bound": false
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "kubernetes_secret_v1",
+      "name": "minio",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": null,
+            "binary_data_wo": null,
+            "binary_data_wo_revision": null,
+            "data": {
+              "root-password": "minioadmin",
+              "root-user": "minioadmin"
+            },
+            "data_wo": null,
+            "data_wo_revision": null,
+            "id": "terraform/minio-secret",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "minio",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "minio-secret",
+                "namespace": "terraform",
+                "resource_version": "26049",
+                "uid": "ffe4baff-2972-45a5-acaf-a18ee0eb9b53"
+              }
+            ],
+            "timeouts": null,
+            "type": "Opaque",
+            "wait_for_service_account_token": true
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "binary_data"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "data"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "data"
+              },
+              {
+                "type": "index",
+                "value": {
+                  "value": "root-password",
+                  "type": "string"
+                }
+              }
+            ]
+          ],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Secret",
+            "name": "minio-secret",
+            "namespace": "terraform"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "kubernetes_service_v1",
+      "name": "minio",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "terraform/minio-svc",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "minio",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "minio-svc",
+                "namespace": "terraform",
+                "resource_version": "26058",
+                "uid": "a327e6c1-3c80-4102-a6b5-fb6fc28cbd41"
+              }
+            ],
+            "spec": [
+              {
+                "allocate_load_balancer_node_ports": true,
+                "cluster_ip": "10.96.208.183",
+                "cluster_ips": [
+                  "10.96.208.183"
+                ],
+                "external_ips": null,
+                "external_name": "",
+                "external_traffic_policy": "Cluster",
+                "health_check_node_port": 0,
+                "internal_traffic_policy": "Cluster",
+                "ip_families": [
+                  "IPv4"
+                ],
+                "ip_family_policy": "SingleStack",
+                "load_balancer_class": "",
+                "load_balancer_ip": "",
+                "load_balancer_source_ranges": null,
+                "port": [
+                  {
+                    "app_protocol": "",
+                    "name": "s3",
+                    "node_port": 30900,
+                    "port": 9000,
+                    "protocol": "TCP",
+                    "target_port": "9000"
+                  },
+                  {
+                    "app_protocol": "",
+                    "name": "console",
+                    "node_port": 30901,
+                    "port": 9001,
+                    "protocol": "TCP",
+                    "target_port": "9001"
+                  }
+                ],
+                "publish_not_ready_addresses": false,
+                "selector": {
+                  "app": "minio"
+                },
+                "session_affinity": "None",
+                "session_affinity_config": [],
+                "type": "NodePort"
+              }
+            ],
+            "status": [
+              {
+                "load_balancer": [
+                  {
+                    "ingress": []
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_load_balancer": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Service",
+            "name": "minio-svc",
+            "namespace": "terraform"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.webapp",
+      "mode": "managed",
+      "type": "kubernetes_config_map_v1",
+      "name": "webapp",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "binary_data": null,
+            "data": {
+              "APP_ENV": "dev",
+              "APP_PORT": "8080",
+              "CATALINA_OPTS": "-Xms256Mi -Xmx512Mi"
+            },
+            "id": "terraform/webapp-config",
+            "immutable": false,
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "webapp",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "webapp-config",
+                "namespace": "terraform",
+                "resource_version": "26053",
+                "uid": "2587107b-f977-4033-9acd-d9d8e93fe862"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "ConfigMap",
+            "name": "webapp-config",
+            "namespace": "terraform"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.webapp",
+      "mode": "managed",
+      "type": "kubernetes_deployment_v1",
+      "name": "webapp",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 1,
+          "attributes": {
+            "id": "terraform/webapp",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "webapp",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "webapp",
+                "namespace": "terraform",
+                "resource_version": "",
+                "uid": ""
+              }
+            ],
+            "spec": [
+              {
+                "min_ready_seconds": 0,
+                "paused": false,
+                "progress_deadline_seconds": 600,
+                "replicas": "2",
+                "revision_history_limit": 10,
+                "selector": [
+                  {
+                    "match_expressions": [],
+                    "match_labels": {
+                      "app": "webapp"
+                    }
+                  }
+                ],
+                "strategy": [],
+                "template": [
+                  {
+                    "metadata": [
+                      {
+                        "annotations": null,
+                        "generate_name": "",
+                        "generation": 0,
+                        "labels": {
+                          "app": "webapp",
+                          "environment": "dev"
+                        },
+                        "name": "",
+                        "namespace": "",
+                        "resource_version": "",
+                        "uid": ""
+                      }
+                    ],
+                    "spec": [
+                      {
+                        "active_deadline_seconds": 0,
+                        "affinity": [],
+                        "automount_service_account_token": true,
+                        "container": [
+                          {
+                            "args": null,
+                            "command": null,
+                            "env": [],
+                            "env_from": [
+                              {
+                                "config_map_ref": [
+                                  {
+                                    "name": "webapp-config",
+                                    "optional": false
+                                  }
+                                ],
+                                "prefix": "",
+                                "secret_ref": []
+                              }
+                            ],
+                            "image": "tomcat:10-jre17",
+                            "image_pull_policy": "",
+                            "lifecycle": [],
+                            "liveness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [],
+                                "initial_delay_seconds": 30,
+                                "period_seconds": 10,
+                                "success_threshold": 1,
+                                "tcp_socket": [
+                                  {
+                                    "port": "8080"
+                                  }
+                                ],
+                                "timeout_seconds": 5
+                              }
+                            ],
+                            "name": "tomcat",
+                            "port": [
+                              {
+                                "container_port": 8080,
+                                "host_ip": "",
+                                "host_port": 0,
+                                "name": "http",
+                                "protocol": "TCP"
+                              }
+                            ],
+                            "readiness_probe": [
+                              {
+                                "exec": [],
+                                "failure_threshold": 3,
+                                "grpc": [],
+                                "http_get": [],
+                                "initial_delay_seconds": 15,
+                                "period_seconds": 5,
+                                "success_threshold": 1,
+                                "tcp_socket": [
+                                  {
+                                    "port": "8080"
+                                  }
+                                ],
+                                "timeout_seconds": 3
+                              }
+                            ],
+                            "resources": [
+                              {
+                                "limits": {
+                                  "cpu": "500m",
+                                  "memory": "512Mi"
+                                },
+                                "requests": {
+                                  "cpu": "250m",
+                                  "memory": "256Mi"
+                                }
+                              }
+                            ],
+                            "restart_policy": "",
+                            "security_context": [],
+                            "startup_probe": [],
+                            "stdin": false,
+                            "stdin_once": false,
+                            "termination_message_path": "/dev/termination-log",
+                            "termination_message_policy": "",
+                            "tty": false,
+                            "volume_device": [],
+                            "volume_mount": [],
+                            "working_dir": ""
+                          }
+                        ],
+                        "dns_config": [],
+                        "dns_policy": "ClusterFirst",
+                        "enable_service_links": true,
+                        "host_aliases": [],
+                        "host_ipc": false,
+                        "host_network": false,
+                        "host_pid": false,
+                        "hostname": "",
+                        "image_pull_secrets": [],
+                        "init_container": [],
+                        "node_name": "",
+                        "node_selector": null,
+                        "os": [],
+                        "priority_class_name": "",
+                        "readiness_gate": [],
+                        "restart_policy": "Always",
+                        "runtime_class_name": "",
+                        "scheduler_name": "",
+                        "security_context": [],
+                        "service_account_name": "",
+                        "share_process_namespace": false,
+                        "subdomain": "",
+                        "termination_grace_period_seconds": 30,
+                        "toleration": [],
+                        "topology_spread_constraint": [],
+                        "volume": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "timeouts": {
+              "create": "10m",
+              "delete": "5m",
+              "update": "10m"
+            },
+            "wait_for_rollout": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": null,
+            "kind": null,
+            "name": null,
+            "namespace": null
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6MzAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "kubernetes_namespace_v1.app",
+            "module.webapp.kubernetes_config_map_v1.webapp"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.webapp",
+      "mode": "managed",
+      "type": "kubernetes_service_v1",
+      "name": "webapp",
+      "provider": "provider[\"registry.terraform.io/hashicorp/kubernetes\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "id": "terraform/webapp-svc",
+            "metadata": [
+              {
+                "annotations": null,
+                "generate_name": "",
+                "generation": 0,
+                "labels": {
+                  "app": "webapp",
+                  "environment": "dev",
+                  "managed-by": "terraform"
+                },
+                "name": "webapp-svc",
+                "namespace": "terraform",
+                "resource_version": "26062",
+                "uid": "3cddaa7a-6670-427e-a6ac-0e51c3e1e15b"
+              }
+            ],
+            "spec": [
+              {
+                "allocate_load_balancer_node_ports": true,
+                "cluster_ip": "10.96.142.97",
+                "cluster_ips": [
+                  "10.96.142.97"
+                ],
+                "external_ips": null,
+                "external_name": "",
+                "external_traffic_policy": "Cluster",
+                "health_check_node_port": 0,
+                "internal_traffic_policy": "Cluster",
+                "ip_families": [
+                  "IPv4"
+                ],
+                "ip_family_policy": "SingleStack",
+                "load_balancer_class": "",
+                "load_balancer_ip": "",
+                "load_balancer_source_ranges": null,
+                "port": [
+                  {
+                    "app_protocol": "",
+                    "name": "http",
+                    "node_port": 30080,
+                    "port": 80,
+                    "protocol": "TCP",
+                    "target_port": "8080"
+                  }
+                ],
+                "publish_not_ready_addresses": false,
+                "selector": {
+                  "app": "webapp"
+                },
+                "session_affinity": "None",
+                "session_affinity_config": [],
+                "type": "NodePort"
+              }
+            ],
+            "status": [
+              {
+                "load_balancer": [
+                  {
+                    "ingress": []
+                  }
+                ]
+              }
+            ],
+            "timeouts": null,
+            "wait_for_load_balancer": true
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 1,
+          "identity": {
+            "api_version": "v1",
+            "kind": "Service",
+            "name": "webapp-svc",
+            "namespace": "terraform"
+          },
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "kubernetes_namespace_v1.app"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": [
+    {
+      "object_kind": "var",
+      "config_addr": "var.environment",
+      "status": "pass",
+      "objects": [
+        {
+          "object_addr": "var.environment",
+          "status": "pass"
+        }
+      ]
+    }
+  ]
+}

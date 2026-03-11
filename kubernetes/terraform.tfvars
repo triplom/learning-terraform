@@ -1,0 +1,36 @@
+# kubernetes/terraform.tfvars.example
+# ─────────────────────────────────────────────────────────────────────────────
+# Copy this file to terraform.tfvars and adjust values for your environment.
+#
+#   cp terraform.tfvars.example terraform.tfvars
+#
+# terraform.tfvars is git-ignored — do NOT commit secrets to source control.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Kubernetes provider ───────────────────────────────────────────────────────
+kubeconfig_path    = "~/.kube/config"
+
+# Set to your cluster context name.  Common values:
+#   kind-terraform-learn   → kind  (created with: kind create cluster --name terraform-learn)
+#   minikube               → Minikube
+#   docker-desktop         → Docker Desktop
+#   Leave empty            → use current context
+kubeconfig_context = "kind-girus"
+
+# ── General ───────────────────────────────────────────────────────────────────
+environment   = "dev"        # dev | staging | prod
+app_namespace = "terraform"
+
+# ── Tomcat web app ────────────────────────────────────────────────────────────
+webapp_image            = "tomcat:10-jre17"
+webapp_replicas         = 2
+webapp_node_port        = 30080   # http://localhost:30080
+webapp_hpa_max_replicas = 6
+
+# ── MinIO object storage ──────────────────────────────────────────────────────
+minio_root_user         = "minioadmin"
+minio_root_password     = "minioadmin"   # ← replace with a strong password
+minio_storage_size      = "5Gi"
+minio_bucket_name       = "app-bucket"
+minio_s3_node_port      = 30900   # http://localhost:30900
+minio_console_node_port = 30901   # http://localhost:30901

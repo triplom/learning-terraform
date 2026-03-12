@@ -1,6 +1,6 @@
 # Learning Terraform
 
-This is the repository for the LinkedIn Learning course **Learning Terraform**, extended with improvements and multi-cloud support for both **AWS** and **Azure**. The original course is available from [LinkedIn Learning][lil-course-url].
+This is the repository for the LinkedIn Learning course **Learning Terraform**, extended with improvements and multi-cloud support for both **AWS** and **Azure**. Additionally, Kubernetes resources are included. The original course is available from [LinkedIn Learning][lil-course-url].
 
 ![Learning Terraform][lil-thumbnail-url]
 

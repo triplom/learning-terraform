@@ -121,3 +121,27 @@ terraform apply
 terraform output
 terraform destroy
 ```
+
+---
+
+## Girus Warm-Up Labs
+
+Practice Terraform and AWS fundamentals in a guided in-browser environment **before** starting the cert labs.
+
+| Warm-Up | Girus Lab ID | Before Cert Lab |
+|---------|-------------|----------------|
+| [WU-1: Terraform Fundamentals](./labs/girus-warmups.md#wu-1-terraform-fundamentals) | `terraform-fundamentos` | Lab 1 (Core Workflow) |
+| [WU-2: AWS S3 Storage](./labs/girus-warmups.md#wu-2-aws-s3-storage) | `aws-s3-storage` | Lab 3 (State) |
+| [WU-3: AWS LocalStack + Terraform](./labs/girus-warmups.md#wu-3-aws-localstack--terraform) | `aws-localstack-terraform` | Lab 1, Lab 3 |
+| [WU-4: Terraform Provisioners & Modules](./labs/girus-warmups.md#wu-4-terraform-provisioners-and-modules) | `terraform-provisioners-modulos` | Lab 4 (Modules) |
+| [WU-5: AWS DynamoDB NoSQL](./labs/girus-warmups.md#wu-5-aws-dynamodb-nosql) | `aws-dynamodb-nosql` | Lab 3 (State/Backend) |
+
+```bash
+# Verify Girus is running
+girus list clusters
+# Launch a lab
+girus lab start terraform-fundamentos
+xdg-open http://localhost:8000
+```
+
+See the full step-by-step guide: [`labs/girus-warmups.md`](./labs/girus-warmups.md)

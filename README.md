@@ -16,6 +16,28 @@ This repository has been **extended beyond the original course** to include:
 
 ---
 
+## Girus Integration
+
+Practice Terraform and AWS fundamentals interactively using **Girus** — a local, in-browser lab platform by LINUXtips.
+
+```bash
+# Verify Girus is running
+girus list clusters
+
+# Available labs for this repo
+girus lab start terraform-fundamentos       # Core workflow warm-up
+girus lab start aws-localstack-terraform    # AWS via LocalStack
+girus lab start aws-s3-storage              # S3 + state backend context
+girus lab start terraform-provisioners-modulos  # Modules deep-dive
+girus lab start aws-dynamodb-nosql          # State locking context
+
+xdg-open http://localhost:8000
+```
+
+See [`cert-roadmap/labs/girus-warmups.md`](./cert-roadmap/labs/girus-warmups.md) for full step-by-step exercises mapped to cert objectives.
+
+---
+
 ## Project Structure
 
 ```text
